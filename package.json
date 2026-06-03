@@ -1,0 +1,18 @@
+{
+  "name": "hormiga",
+  "version": "1.0.0",
+  "description": "Hormiga — Registrador de gastos rápidos",
+  "main": "index.js",
+  "scripts": {
+    "sync": "npx cap copy android && npx cap sync android",
+    "prebuild:android": "xcopy /Y /I index.html www\\ & xcopy /Y /I app.js www\\ & xcopy /Y /I style.css www\\ & xcopy /Y /I sw.js www\\ & xcopy /Y /I manifest.json www\\ & xcopy /Y /I *.png www\\",
+    "build:android": "npm run prebuild:android && npm run sync"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/core": "^7.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.0.0"
+  }
+}

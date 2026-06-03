@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0a0a0f" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Hormiga 🐜</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- PANTALLA: AUTH (login / registro) -->
+  <div id="screen-auth" class="setup-overlay">
+    <div class="setup-card">
+      <span class="setup-emoji">🐜</span>
+      <h1 class="setup-title">hormiga</h1>
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-tab="login">Ingresar</button>
+        <button class="auth-tab" data-tab="register">Registrarse</button>
+      </div>
+      <div id="auth-name-row" class="hidden">
+        <input type="text" id="auth-name" class="note-input" placeholder="Tu nombre (ej: Benja)…" maxlength="20" autocomplete="off" />
+      </div>
+      <input type="email"    id="auth-email"    class="note-input" placeholder="Email…"      autocomplete="email" />
+      <input type="password" id="auth-password" class="note-input" placeholder="Contraseña…" autocomplete="current-password" />
+      <button id="btn-auth-submit" class="btn-save" disabled>Ingresar</button>
+      <p id="auth-error" class="auth-error hidden"></p>
+    </div>
+  </div>
+
+  <!-- PANTALLA: GRUPO (crear / unirse) -->
+  <div id="screen-group" class="setup-overlay hidden">
+    <div class="setup-card">
+      <span class="setup-emoji">🐜</span>
+      <p class="setup-subtitle">Registro compartido</p>
+      <p class="setup-desc">Creá un grupo y compartí el código con tu pareja, o ingresá el código que te mandaron.</p>
+
+      <button id="btn-create-group" class="btn-save">Crear grupo nuevo</button>
+
+      <div class="group-divider"><span>o</span></div>
+
+      <div class="group-join-row">
+        <input type="text" id="join-code-input" class="note-input join-code-input" placeholder="Código de 6 letras…" maxlength="6" autocomplete="off" />
+        <button id="btn-join-group" class="btn-save" disabled>Unirse al grupo</button>
+      </div>
+
+      <!-- Se muestra después de crear el grupo -->
+      <div id="group-code-display" class="hidden">
+        <p class="group-code-label">Tu código de grupo</p>
+        <div class="group-code-box" id="group-code-value"></div>
+        <p class="group-code-hint">Mandáselo a tu pareja para que se una 🐜</p>
+        <button id="btn-group-continue" class="btn-save">Continuar →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: configuración -->
+  <div id="modal-backdrop" class="modal-backdrop hidden"></div>
+  <div id="modal-settings" class="modal-settings hidden">
+    <div class="modal-header">
+      <span class="modal-title">Configuración</span>
+      <button id="btn-settings-close" class="btn-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+    <label class="modal-label">Tu nombre</label>
+    <input type="text" id="settings-name-input" class="note-input" maxlength="20" autocomplete="off" />
+    <button id="btn-settings-save" class="btn-save" style="margin: 12px 0 4px;">Guardar</button>
+    <button id="btn-logout" class="btn-logout">Cerrar sesión</button>
+  </div>
+
+  <!-- PANTALLA: REGISTRO RÁPIDO -->
+  <div id="screen-add" class="screen">
+    <div class="screen-inner">
+      <div class="app-header">
+        <span class="app-logo">🐜</span>
+        <span class="app-title">hormiga</span>
+        <button id="user-badge" class="user-badge" title="Configuración">…</button>
+        <button class="btn-icon" id="btn-go-history" title="Ver historial">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
+        </button>
+      </div>
+
+      <div class="amount-section">
+        <div class="amount-label">¿Cuánto gastaste?</div>
+        <div class="amount-display">
+          <span class="currency">$</span>
+          <span id="amount-value">0</span>
+        </div>
+        <div class="numpad">
+          <button class="num-btn" data-val="1">1</button>
+          <button class="num-btn" data-val="2">2</button>
+          <button class="num-btn" data-val="3">3</button>
+          <button class="num-btn" data-val="4">4</button>
+          <button class="num-btn" data-val="5">5</button>
+          <button class="num-btn" data-val="6">6</button>
+          <button class="num-btn" data-val="7">7</button>
+          <button class="num-btn" data-val="8">8</button>
+          <button class="num-btn" data-val="9">9</button>
+          <button class="num-btn" data-val=",">,</button>
+          <button class="num-btn" data-val="0">0</button>
+          <button class="num-btn del-btn" data-val="del">⌫</button>
+        </div>
+      </div>
+
+      <div class="category-section">
+        <div class="section-label">Categoría</div>
+        <div class="category-grid">
+          <button class="cat-btn" data-cat="kiosko">
+            <span class="cat-emoji">🥤</span><span class="cat-name">Kiosko</span>
+          </button>
+          <button class="cat-btn" data-cat="nafta">
+            <span class="cat-emoji">⛽</span><span class="cat-name">Nafta</span>
+          </button>
+          <button class="cat-btn" data-cat="digitales">
+            <span class="cat-emoji">🎮</span><span class="cat-name">Digitales</span>
+          </button>
+          <button class="cat-btn" data-cat="transferencias">
+            <span class="cat-emoji">💖</span><span class="cat-name">Transfer.</span>
+          </button>
+          <button class="cat-btn" data-cat="casa">
+            <span class="cat-emoji">🏠</span><span class="cat-name">Casa</span>
+          </button>
+          <button class="cat-btn" data-cat="tarjeta">
+            <span class="cat-emoji">💳</span><span class="cat-name">Tarjeta</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="note-section">
+        <input type="text" id="note-input" class="note-input" placeholder="Nota (opcional)…" maxlength="80" />
+      </div>
+
+      <button id="btn-save" class="btn-save" disabled>
+        <span>Guardar</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast"></div>
+
+  <!-- PANTALLA: HISTORIAL -->
+  <div id="screen-history" class="screen">
+    <div class="screen-inner">
+      <div class="app-header">
+        <button class="btn-icon" id="btn-go-add" title="Nuevo gasto">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+        </button>
+        <span class="app-title">historial</span>
+        <button class="btn-icon" id="btn-go-stats" title="Estadísticas">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+        </button>
+        <button class="btn-icon" id="btn-export" title="Exportar CSV">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </button>
+      </div>
+
+      <div class="summary-bar">
+        <div class="summary-item">
+          <span class="summary-label">Este mes</span>
+          <span class="summary-value" id="summary-month">$0</span>
+          <span class="summary-count" id="summary-month-count">0 gastos</span>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-item">
+          <span class="summary-label">Total registrado</span>
+          <span class="summary-value" id="summary-total">$0</span>
+          <span class="summary-count" id="summary-total-count">0 en total</span>
+        </div>
+      </div>
+
+      <div id="history-list" class="history-list">
+        <div class="empty-state">
+          <span class="empty-emoji">🐜</span>
+          <p>Todavía no hay gastos registrados.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANTALLA: ESTADÍSTICAS -->
+  <div id="screen-stats" class="screen">
+    <div class="screen-inner">
+      <div class="app-header">
+        <button class="btn-icon" id="btn-stats-back" title="Volver">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+        </button>
+        <span class="app-title">estadísticas</span>
+        <div style="width:40px"></div>
+      </div>
+      <div class="period-tabs">
+        <button class="period-tab active" data-period="month">Este mes</button>
+        <button class="period-tab" data-period="prev">Mes ant.</button>
+        <button class="period-tab" data-period="all">Todo</button>
+      </div>
+      <div class="view-toggle">
+        <button class="toggle-btn active" data-view="category">Por categoría</button>
+        <button class="toggle-btn" data-view="person">Por persona</button>
+      </div>
+      <div id="chart-container" class="chart-container"></div>
+      <div id="chart-legend" class="chart-legend"></div>
+    </div>
+  </div>
+
+  <!-- Firebase JS SDK — local copies (bundled en el APK, no depende de CDN) -->
+  <script src="lib/firebase-app-compat.js"></script>
+  <script src="lib/firebase-auth-compat.js"></script>
+  <script src="lib/firebase-firestore-compat.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
