@@ -1,0 +1,8 @@
+node_modules/
+android/
+.DS_Store
+*.local
+
+# Internos / config local (no van al repo)
+.claude/
+BRIEFING_CLAUDE_CODE.md
